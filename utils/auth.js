@@ -1,5 +1,7 @@
+import Router from 'next/router'
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import firebase from './firebase'
+import { createUser } from './db'
 
 const authContext = createContext()
 
@@ -21,6 +23,7 @@ function useProvideAuth() {
       const user = formatUser(rawUser)
 
       setLoading(false)
+      createUser(user.uid, user)
       setUser(user)
 
       return user
@@ -41,6 +44,19 @@ function useProvideAuth() {
       .then((response) => handleUser(response.user))
   }
 
+  const signinWithGoogle = (redirect) => {
+    setLoading(true)
+
+    return firebase
+      .auth()
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then((response) => {
+        handleUser(response.user)
+
+        if (redirect) Router.push(redirect)
+      })
+  }
+
   const signout = () => {
     return firebase
       .auth()
@@ -58,6 +74,7 @@ function useProvideAuth() {
     user,
     loading,
     signinWithGitHub,
+    signinWithGoogle,
     signout,
   }
 }

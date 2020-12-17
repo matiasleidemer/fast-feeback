@@ -1,7 +1,13 @@
 import { useAuth } from '../utils/auth'
 
 export default function Index() {
-  const { user, loading, signinWithGitHub, signout } = useAuth()
+  const {
+    user,
+    loading,
+    signinWithGitHub,
+    signinWithGoogle,
+    signout,
+  } = useAuth()
 
   if (loading) return <div>Loading</div>
 
@@ -11,6 +17,8 @@ export default function Index() {
       <button onClick={(e) => signout()}>Sign Out</button>
     </div>
   ) : (
-    <button onClick={(e) => signinWithGitHub()}>Sign In</button>
+    <div>
+      <button onClick={(e) => signinWithGitHub()}>Sign In with Github</button>
+    </div>
   )
 }
