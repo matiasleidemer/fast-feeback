@@ -1,13 +1,7 @@
-import { useAuth } from '../utils/auth'
+import { useAuth } from '../lib/auth'
 
 export default function Index() {
-  const {
-    user,
-    loading,
-    signinWithGitHub,
-    signinWithGoogle,
-    signout,
-  } = useAuth()
+  const { user, loading, signinWithGitHub, signout } = useAuth()
 
   if (loading) return <div>Loading</div>
 
